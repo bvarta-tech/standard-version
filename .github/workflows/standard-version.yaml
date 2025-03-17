@@ -6,11 +6,13 @@ on:
       - master
     paths:
       - "**"
+      - "!CHANGELOG.md"
   pull_request:
     branches:
       - master
     paths:
       - "**"
+      - "!CHANGELOG.md"
 
 jobs:
   build:
