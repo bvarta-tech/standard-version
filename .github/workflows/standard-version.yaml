@@ -1,0 +1,54 @@
+name: CI/CD Pipeline for React App with Standard-Version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  
+
+      - name: Install dependencies
+        run: npm install --engine-strict
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run code coverage
+        run: npm run coverage
+
+      - name: Build React App
+        run: npm run build
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository with full history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '12'
+
+      - name: Bump version and generate changelog using standard-version
+        run: npx standard-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes (commits and tags)
+        run: git push --follow-tags origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
