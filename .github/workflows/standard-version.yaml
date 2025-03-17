@@ -1,6 +1,7 @@
 name: CI/CD Pipeline for React App with Standard-Version (PR & Official)
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -9,7 +10,7 @@ on:
       - "!CHANGELOG.md"
   pull_request:
     branches:
-      - master
+      - feature/standard-version
     paths:
       - "**"
       - "!CHANGELOG.md"
