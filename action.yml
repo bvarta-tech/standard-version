@@ -8,4 +8,5 @@ runs:
   using: "composite"
   steps:
     - name: Run standard-version
+      shell: bash
       run: npx standard-version --release-as ${{ inputs.bump-type }}
