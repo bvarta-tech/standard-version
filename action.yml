@@ -1,0 +1,11 @@
+name: "Standard Version Composite Action"
+description: "A composite action to run standard-version"
+inputs:
+  bump-type:
+    description: "Version bump type (major, minor, patch)"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Run standard-version
+      run: npx standard-version --release-as ${{ inputs.bump-type }}
